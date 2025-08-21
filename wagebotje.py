@@ -70,7 +70,7 @@ def generate_one_sentence(words):
         cur.close()
         # end of sentence
         cur = con.cursor()
-        cur.execute('select end, -LOG(RANDOM() + 1) / count AS priority, count FROM end ORDER BY priority LIMIT 1')
+        cur.execute('select end, LOG(RANDOM() + 1) / count AS priority, count FROM end ORDER BY priority LIMIT 1')
         end_word = cur.fetchone()
         cur.close()
 

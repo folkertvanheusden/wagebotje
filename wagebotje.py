@@ -90,8 +90,8 @@ def generate_one_sentence(words):
         end_word = cur.fetchone()
         cur.close()
 
-        target_length = random.randint(2, 10)
-        max_length = random.randint(target_length, 25)
+        target_length = random.randint(2, 25)
+        max_length = random.randint(target_length, 40)
         output = [ (start_word[0], start_word[2]) ]
         while len(output) < max_length:
             cur = con.cursor()

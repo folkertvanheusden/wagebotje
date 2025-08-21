@@ -11,7 +11,7 @@ from configuration import *
 
 db_file = 'wagebotje.db'
 
-def learn(parts):
+def init_db():
     con = sqlite3.connect(db_file)
 
     cur = con.cursor()
@@ -22,15 +22,30 @@ def learn(parts):
         cur.execute('CREATE TABLE word2(word1 text, word2 text, count integer, primary key (word1, word2))')
         cur.execute('CREATE TABLE word3(word1 text, word2 text, word3 text, count integer, primary key (word1, word2, word3))')
         cur.execute('CREATE TABLE end(end text, count integer, primary key (end))')
+        con.commit()
     except:
         pass
     cur.close()
-    con.commit()
+
+    con.close()
+
+def learn(parts):
+    con = sqlite3.connect(db_file)
 
     cur = con.cursor()
     first = True
     pwords = []
     for word in parts:
+        ok = True
+        word = word.rstrip('-')
+        word = word.rstrip('+')
+        for c in word:
+            if c < 'a' or c > 'z':
+                ok = False
+                break
+        if ok == False or (len(word) < 2 and word != 'a'):
+            continue
+
         if first:
             first = False
             if ':' in word:
@@ -57,6 +72,7 @@ def learn(parts):
     con.commit()
     con.close()
 
+# https://stackoverflow.com/questions/1398113/how-to-select-one-row-randomly-taking-into-account-a-weight
 def generate_one_sentence(words):
     con = sqlite3.connect(db_file)
     try:
@@ -188,10 +204,19 @@ def on_message(client, userdata, message):
 def on_connect(client, userdata, flags, rc):
     client.subscribe(f'{topic_prefix}from/irc/#')
 
+init_db()
+
 if len(sys.argv) >= 2:
+    n = 0
+    pt = time.time()
     for line in open(sys.argv[1], 'r').readlines():
         line = line.rstrip('\n')
         learn(line.split(' '))
+        n += 1
+        now = time.time()
+        if now - pt >= 1.:
+            print(n)
+            pt = now
 
 else:
     client = mqtt.Client()

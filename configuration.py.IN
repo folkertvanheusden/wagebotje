@@ -1,0 +1,6 @@
+mqtt_server  = 'mqtt.vm.nurd.space'   # hostname of MQTT server
+mqtt_port    = 1883
+topic_prefix = 'GHBot/'  # leave this as is
+channels     = ['nurdbottest', 'nurds', 'nurdsbofh']  # channels to respond to
+prefix       = '!'  # !command, will be updated by ghbot
+prompt       = 'nurdbot:'

@@ -43,7 +43,7 @@ def learn(parts):
             if c < 'a' or c > 'z':
                 ok = False
                 break
-        if ok == False or (len(word) < 2 and word != 'a'):
+        if ok == False or len(word) < 2:
             continue
 
         if first:

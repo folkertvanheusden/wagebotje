@@ -190,8 +190,8 @@ def on_connect(client, userdata, flags, rc):
 
 if len(sys.argv) >= 2:
     for line in open(sys.argv[1], 'r').readlines():
-        print(line)
-        learn(line.rstrip('\n').split(' '))
+        line = line.rstrip('\n')
+        learn(line.split(' '))
 
 else:
     client = mqtt.Client()

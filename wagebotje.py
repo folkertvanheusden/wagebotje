@@ -66,7 +66,7 @@ def generate_one_sentence(words):
         start_word = cur.fetchone()
         if start_word == None:
             cur.execute('select start, -LOG(RANDOM() + 1) / count AS priority, count FROM start ORDER BY priority LIMIT 1')
-        start_word = cur.fetchone()
+            start_word = cur.fetchone()
         cur.close()
         # end of sentence
         cur = con.cursor()

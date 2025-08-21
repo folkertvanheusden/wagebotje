@@ -188,9 +188,15 @@ def on_message(client, userdata, message):
 def on_connect(client, userdata, flags, rc):
     client.subscribe(f'{topic_prefix}from/irc/#')
 
-client = mqtt.Client()
-client.on_message = on_message
-client.on_connect = on_connect
-client.connect(mqtt_server, port=mqtt_port, keepalive=4, bind_address='')
+if len(sys.argv) >= 2:
+    for line in open(sys.argv[1], 'r').readlines():
+        print(line)
+        learn(line.rstrip('\n').split(' '))
 
-client.loop_forever()
+else:
+    client = mqtt.Client()
+    client.on_message = on_message
+    client.on_connect = on_connect
+    client.connect(mqtt_server, port=mqtt_port, keepalive=4, bind_address='')
+
+    client.loop_forever()

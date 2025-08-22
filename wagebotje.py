@@ -191,7 +191,7 @@ def on_message(client, userdata, message):
 
         command = tokens[0]
 
-        if command == 'wagebotje:':
+        if command == trigger:
             try:
                 reply = generate_reply(tokens)
                 if not reply is None:
